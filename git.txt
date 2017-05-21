@@ -1,0 +1,70 @@
+git是linus用一个月开发出来的；
+SVN集中式 VS git分布式
+centos 安装
+    yum install git //安装git
+    yum --version   //查看yum版本
+    git --version   //查看git版本
+    yum remove git  //卸载git
+创建版本库
+
+    对于一个文件目录，创建版本库的方法：
+    git init                    //初始化一个空库在本目录下，以隐藏文件形式: .git,利用"ls -ah"可以查看到
+    git add * * *               //添加某个文件，进入仓库，* * * 全部为文件名，可以多个一起
+    git commit -m "add a file"  //将文件全部提交到仓库，-m后均为提交说明
+
+时间穿梭
+
+    git status          //仓库当前状态，即add后还未commit的文件状态
+    git diff * * *      //查看某些文件修改的情况，即git status里面的文件
+
+版本回退
+    
+    当文件commit后，可能会出现回退到原始文件的情况
+    git log                   //查看commit提交历史，内容较多，一般用下面的命令
+    git log --pretty=oneline  //每个日志输出一行
+    git reset --hard HEAD^    //回到上一个版本
+    git reset --hard ***      //***为git log后某个版本号的编号，第一列那个
+
+    在关了电脑的情况下，需要使用另外的命令
+    git reflog  //查看历史命令
+
+工作区和暂存区
+    在工作区修改文件后，git add 提交到暂存区，而git commit则提交到版本库某个分支
+
+撤销修改
+    修改文件后，这个时候想撤销修改：
+    git status          //查看可撤销的文件
+    git checkout -- **  //撤销某个文件的修改，注意这里有两种情况，一种是恢复到版本库，如果暂存区还在的话，则是恢复到暂存区
+    如果已经添加到暂存区，则：
+    git reset HEAD **   //把暂存区的文件撤销，这个时候工作区仍然处于修改状态
+    git checkout -- **  //撤销修改
+    如果已经提交到版本库，则参考上面的“版本回退”
+
+文件删除
+    rm **                   //工作区删除文件，版本库未改变
+    git status              //查看修改状态
+    git rm ** 或 git commit //确实要删除某个文件，这是删除版本库的文件
+    git checkout -- **      //删错了，想重新恢复
+远程仓库
+
+    第一步：创建SSHKey.
+        打开用户主目录，看看有没有.ssh目录（隐藏目录），如果有，则查看有没有id_rsa和id_rsa.pub两个文件，前面为私钥，后面为公钥。
+        如果没有则需要创建：
+        ssh-keygen -t rsa -C "alpc40@sina.com"  //邮箱地址换成自己的
+    第二步：登陆GitHub，打开“Account settings”，“SSH Keys”页面，按照要求填写好
+
+添加远程仓库
+    如何把当前目录与远程仓库相关联：
+    git remote add origin git@github.com:*/**    //*为自己的git账户名，**为github里账户名里面的仓库名
+    git push -u origin master  //将本地库推送到远程仓库，第一次推送时使用，-u参数不但会推送本地库，还会关联本地库
+    git push origin master     //以后就不用-u参数啦
+
+克隆远程库
+    git clone git@github.com:用户名/远程仓库名  //将远程库克隆到本目录下
+
+
+
+
+
+
+
